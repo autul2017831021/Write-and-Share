@@ -1,29 +1,32 @@
 import React from 'react';
+//import { useNavigate } from 'react-router-dom';
 import '../css/Login.css';
 import Cookies from 'js-cookie';
 
-class Logout extends React.Component {
-  
-  handleLogout = () => {
-    const cookieExists = Cookies.get('jwt') !== undefined;
-    if(cookieExists){
-      Cookies.remove('jwt');
-    }
-  }
+function Logout() {
+    //const navigate = useNavigate();
 
-  handleSubmit = async (event) => {
-    event.preventDefault();
-    this.handleLogout();
-  }
+    const handleLogout = () => {
+        const cookieExists = Cookies.get('jwt') !== undefined;
+        if(cookieExists){
+            Cookies.remove('jwt');
+        }
+        //window.location.reload();
+    }
+
+    const handleClick = async (event) => {
+        event.preventDefault();
+        handleLogout();
+        window.location.reload();
+        //navigate('/login');
+    }
   
-  render() {
     return (
-      <div className="login-page">
+        <div className="login-page">
         <h1 className="login-title">Log Out</h1>
-        <button className="login-button" type="submit" onClick={this.handleSubmit}>Log Out</button>
-      </div>
+        <button className="login-button" type="submit" onClick={handleClick}>Log Out</button>
+        </div>
     );
-  }
 }
 
 export default Logout;
