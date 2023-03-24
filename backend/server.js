@@ -14,6 +14,7 @@ const { base64decode } = require('./helpers/utility.js')
 const { getUserProfile, updateUserProfile } = require('./controllers/userController.js')
 const { updateProfileAuth } = require('./helpers/role.js')
 const { validateJwt } = require('./middleware/auth/validateJwt.js')
+const blogRoutes = require('./routes/blogRoutes')
 
 const port = 8080
 
@@ -30,9 +31,15 @@ function commonCallBack(path){
     console.log( getDate(new Date()) )
 }
 
-app.get("/api/blog/get", (req,res)=>{
-
+// Blog Routes
+app.get('/api/blog/get', verifyJwt, (request,response)=>{
+    const path = request.url
+    const id = request.query.id
+    commonCallBack(path)
+    if(id) getPostById(request,response,db,id)
+    else getAllPosts(request,response,db)
 })
+
 
 app.listen(port,()=>{
     console.log("Server running on http://localhost:%i",port)
