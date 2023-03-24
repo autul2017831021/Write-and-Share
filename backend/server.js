@@ -14,7 +14,7 @@ const { base64decode } = require('./helpers/utility.js')
 const { getUserProfile, updateUserProfile } = require('./controllers/userController.js')
 const { updateProfileAuth } = require('./helpers/role.js')
 const { validateJwt } = require('./middleware/auth/validateJwt.js')
-const { hasBlogId } = require('./middleware/queryParam/hasParam')
+const { hasBlogId, hasUsername } = require('./middleware/queryParam/hasParam')
 
 const port = 8080
 
@@ -46,7 +46,7 @@ app.post('/api/blog/create', verifyJwt, validateJwt, (request,response)=>{
     commonCallBack(path)
     createPost(request,response,db,userInfo)
 })
-app.put('/api/blog/update', verifyJwt, validateJwt, hasBlogId, (request,response)=>{
+app.put('/api/blog/update', hasBlogId, verifyJwt, validateJwt, (request,response)=>{
     const path = request.url
     const id = request.query.id
     const payload = request.headers.authorization.split(' ')[1].split('.')[1]
@@ -54,7 +54,7 @@ app.put('/api/blog/update', verifyJwt, validateJwt, hasBlogId, (request,response
     commonCallBack(path)
     updatePostById(request,response,db,userInfo,id)
 })
-app.delete('/api/blog/delete', verifyJwt, validateJwt, hasBlogId, (request,response)=>{
+app.delete('/api/blog/delete', hasBlogId, verifyJwt, validateJwt, (request,response)=>{
     const path = request.url
     const id = request.query.id
     const payload = request.headers.authorization.split(' ')[1].split('.')[1]
@@ -63,7 +63,20 @@ app.delete('/api/blog/delete', verifyJwt, validateJwt, hasBlogId, (request,respo
     deletePostById(request,response,db,userInfo,id)
 })
 
-
+// User Routes
+app.get('/api/profile/get', hasUsername, verifyJwt, validateJwt, (request,response)=>{
+    const path = request.url
+    const username = request.query.username
+    commonCallBack(path)
+    getUserProfile(request,response,db,username)
+})
+app.put('/api/profile/update', verifyJwt, validateJwt, (request,response)=>{
+    const path = request.url
+    const payload = request.headers.authorization.split(' ')[1].split('.')[1]
+    const userInfo = JSON.parse(base64decode(payload))
+    commonCallBack(path)
+    updateUserProfile(request,response,db,userInfo,request.headers.authorization.split(' ')[1])
+})
 
 app.listen(port,()=>{
     console.log("Server running on http://localhost:%i",port)
