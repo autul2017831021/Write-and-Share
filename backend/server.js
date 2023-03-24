@@ -32,12 +32,19 @@ function commonCallBack(path){
 }
 
 // Blog Routes
-app.get('/api/blog/get', verifyJwt, (request,response)=>{
+app.get('/api/blog/get', verifyJwt, validateJwt, (request,response)=>{
     const path = request.url
     const id = request.query.id
     commonCallBack(path)
     if(id) getPostById(request,response,db,id)
     else getAllPosts(request,response,db)
+})
+app.post('/api/blog/create', verifyJwt, validateJwt, (request,response)=>{
+    const path = request.url
+    const payload = request.headers.authorization.split(' ')[1].split('.')[1]
+    const userInfo = JSON.parse(base64decode(payload))
+    commonCallBack(path)
+    createPost(request,response,db,userInfo)
 })
 
 
