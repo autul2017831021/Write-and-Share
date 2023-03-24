@@ -22,6 +22,10 @@ function  isEmptyObject(object) {
 function getPostData(request){
     return new Promise((resolve, reject) => {
         try {
+            if(request.body !== undefined){
+                console.log(request.body)
+                resolve(request.body)
+            }
             let postData = ''
             const decoder = new StringDecoder('utf-8')
             request.on('data',function(buffer){
