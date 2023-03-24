@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 const { createJwtSignature } = require('../../helpers/jwt/createJwt')
-const errorHandleController = require('../../controllers/errorHandleController')
+const { invalidToken } = require('../../controllers/errorHandleController')
 
 function verifyJwt(request, response, next){
     let bearerToken = request.headers.authorization
@@ -8,10 +8,10 @@ function verifyJwt(request, response, next){
         const token = bearerToken.split(' ')[1].split('.')
         
         if(verifySignature(token)) next()
-        else return errorHandleController.invalidToken(request,response)
+        else return invalidToken(request,response)
     }
     else{
-        return errorHandleController.invalidToken(request,response)
+        return invalidToken(request,response)
     }
 }
 

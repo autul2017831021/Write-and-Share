@@ -2,17 +2,17 @@ const { searchByID } = require('../../database/repository/user/find')
 const {base64decode} = require('../../helpers/utility')
 const { getStatusModel } = require('../../models/statusModel')
 const { getUserModel } = require('../../models/userModel')
-const errorHandleController = require('../../controllers/errorHandleController')
+const { invalidToken } = require('../../controllers/errorHandleController')
 
 async function validateJwt(request, response, next, db){
     let bearerToken = request.headers.authorization
     if(typeof bearerToken !== 'undefined'){
         const token = bearerToken.split(' ')[1].split('.')
         if(await validatePayload(db,token)) next()
-        else return errorHandleController.invalidToken(request,response)
+        else return invalidToken(request,response)
     }
     else{
-        return errorHandleController.invalidToken(request,response)
+        return invalidToken(request,response)
     }
 }
 async function validatePayload(db,token){
