@@ -90,7 +90,8 @@ app.post('/api/register', (request, response)=>{
     register(request,response,db)
 })
 app.use('*', (request,response) =>{
-    console.log(request.url)
+    const path = request.url
+    commonCallBack(path)
     notFound(request,response)
 })
 
