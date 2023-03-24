@@ -78,6 +78,22 @@ app.put('/api/profile/update', verifyJwt, validateJwt, (request,response)=>{
     updateUserProfile(request,response,db,userInfo,request.headers.authorization.split(' ')[1])
 })
 
+// Login & Registration Routes
+app.post('/api/login', (request, response)=>{
+    const path = request.url
+    commonCallBack(path)
+    login(request,response,db)
+})
+app.post('/api/register', (request, response)=>{
+    const path = request.url
+    commonCallBack(path)
+    register(request,response,db)
+})
+app.use('*', (request,response) =>{
+    console.log(request.url)
+    notFound(request,response)
+})
+
 app.listen(port,()=>{
     console.log("Server running on http://localhost:%i",port)
 })
