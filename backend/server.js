@@ -14,7 +14,7 @@ const { base64decode } = require('./helpers/utility.js')
 const { getUserProfile, updateUserProfile } = require('./controllers/userController.js')
 const { updateProfileAuth } = require('./helpers/role.js')
 const { validateJwt } = require('./middleware/auth/validateJwt.js')
-const blogRoutes = require('./routes/blogRoutes')
+const { hasBlogId } = require('./middleware/queryParam/hasParam')
 
 const port = 8080
 
@@ -46,6 +46,23 @@ app.post('/api/blog/create', verifyJwt, validateJwt, (request,response)=>{
     commonCallBack(path)
     createPost(request,response,db,userInfo)
 })
+app.put('/api/blog/update', verifyJwt, validateJwt, hasBlogId, (request,response)=>{
+    const path = request.url
+    const id = request.query.id
+    const payload = request.headers.authorization.split(' ')[1].split('.')[1]
+    const userInfo = JSON.parse(base64decode(payload))
+    commonCallBack(path)
+    updatePostById(request,response,db,userInfo,id)
+})
+app.delete('/api/blog/delete', verifyJwt, validateJwt, hasBlogId, (request,response)=>{
+    const path = request.url
+    const id = request.query.id
+    const payload = request.headers.authorization.split(' ')[1].split('.')[1]
+    const userInfo = JSON.parse(base64decode(payload))
+    commonCallBack(path)
+    deletePostById(request,response,db,userInfo,id)
+})
+
 
 
 app.listen(port,()=>{
