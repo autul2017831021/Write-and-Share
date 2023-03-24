@@ -13,5 +13,6 @@ function hasUsername(request, response, next){
 }
 
 module.exports = {
-    hasBlogId
+    hasBlogId,
+    hasUsername
 }
