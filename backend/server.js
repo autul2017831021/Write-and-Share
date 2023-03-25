@@ -16,6 +16,7 @@ const { updateProfileAuth } = require('./helpers/role.js')
 const { validateJwt } = require('./middleware/auth/validateJwt.js')
 const { hasBlogId, hasUsername } = require('./middleware/queryParam/hasParam')
 
+const host = '192.168.0.105'
 const port = 8080
 
 app.use(cors())
@@ -95,6 +96,6 @@ app.use('*', (request,response) =>{
     notFound(request,response)
 })
 
-app.listen(port,()=>{
-    console.log("Server running on http://localhost:%i",port)
+app.listen(port,host,()=>{
+    console.log("Server running on %s:%i",host,port)
 })
