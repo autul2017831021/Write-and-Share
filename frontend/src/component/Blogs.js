@@ -4,30 +4,40 @@ import '../css/Blogs.css';
 
 function Blogs() {   
     const [blogs, setBlogs] = useState([]);
-
-    const getAllBlogs = async() => {
-        const jwt = getToken('jwt');
+    const api = 'http://192.168.0.105:8080/api/blog/get'
+    const apiResponse = async(jwt) => {
         const token = 'Brarer '+jwt;
-        const response = await fetch('http://localhost:8080/api/blog/get', {
+        const response = await fetch(api, {
             method: 'GET',
             headers: {
                 'Content-Type'  : 'application/json',
                 'Authorization' : token
             }
         });
-        const data = await response.json();
-        if (data.status.success) {
-            const allBlogs = data.posts
-            setBlogs(allBlogs)
-        } 
-        else {
-            setBlogs([])
+        if(response.ok) {
+            const data = await response.json();
+            return data
         }
+        return {status:{success:false}}
+    }
+
+    const getAllBlogs = async() => {
+        const jwt = getToken('jwt');
+        if (jwt !== undefined) {
+            const data = await apiResponse(jwt);
+            if(data.status.success){
+                const allBlogs = data.posts;
+                setBlogs(allBlogs);
+            }
+            else setBlogs([])
+        } 
+        else setBlogs([])
     }
 
     useEffect( () => {
         getAllBlogs();
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
     
     return (
       <div className="Blog">
@@ -38,9 +48,9 @@ function Blogs() {
             <ul>
                 {blogs.map(blog => (
                     <div key={blog.id}>
-                        <h4 className=''>{blog.title}</h4>
+                        <h4 className=''>{ blog.title !== undefined ? blog.title : null}</h4>
                         {/* <div dangerouslySetInnerHTML={{ __html: blog.body }} /> */}
-                        <p dangerouslySetInnerHTML={{ __html: blog.body }} />
+                        <p dangerouslySetInnerHTML={{ __html: (blog.body !== undefined) ? blog.body : null }} />
                     </div>
                 ))}
             </ul>

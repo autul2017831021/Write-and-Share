@@ -10,36 +10,41 @@ function Login() {
     const navigate = useNavigate();
     
     const handleLoginSuccess = (token) => {
-      const cookieExists = Cookies.get('jwt') !== undefined;
-      if(cookieExists){
-        Cookies.remove('jwt');
-      }
-      Cookies.set('jwt', token);
-      window.location.reload();
+        const cookieExists = Cookies.get('jwt') !== undefined;
+        if(cookieExists){
+          Cookies.remove('jwt');
+        }
+        Cookies.set('jwt', token);
+        window.location.reload();
     }
 
     const handleSubmit = async (event) => {
-      event.preventDefault();
-      
-      const response = await fetch('http://localhost:8080/api/login', {
-          method: 'POST',
-          body: JSON.stringify({
-              email: email,
-              password: password
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-        }
+        event.preventDefault();
+        const api = 'http://192.168.0.105:8080/api/login'
+        const response = await fetch(api, {
+            method: 'POST',
+            body: JSON.stringify({
+                email: email,
+                password: password
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+          }
       });
 
       if (response.ok) {
           const data = await response.json();
-          const token = data.token;
-          handleLoginSuccess(token);
+          if(data.status.success){
+              const token = data.token;
+              handleLoginSuccess(token);
+          }
+          else{
+             navigate('/login');;
+          }
           //navigate('/');
       } 
       else {
-         navigate('/login');;
+          navigate('/login');
       }
     }
     
