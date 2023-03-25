@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import getToken from '../utils/getToken'
+import { useParams } from 'react-router-dom';
+import getToken from '../utils/getToken';
 import '../css/Blogs.css';
 
-function Blogs() {   
+function SingleBlog() {   
     const [blogs, setBlogs] = useState([]);
-    const api = 'http://192.168.0.105:8080/api/blog/get'
+    const apiPrefix = 'http://192.168.0.105:8080/api/blog/get';
+    const { id } = useParams();
+    const api = apiPrefix + '?id=' + id;
     const apiResponse = async(jwt) => {
         const token = 'Brarer '+jwt;
         const response = await fetch(api, {
@@ -16,7 +19,7 @@ function Blogs() {
         });
         if(response.ok) {
             const data = await response.json();
-            return data
+            return data;
         }
         return {status:{success:false}}
     }
@@ -29,9 +32,9 @@ function Blogs() {
                 const allBlogs = data.posts;
                 setBlogs(allBlogs);
             }
-            else setBlogs([])
+            else setBlogs([]);
         } 
-        else setBlogs([])
+        else setBlogs([]);
     }
 
     useEffect( () => {
@@ -41,14 +44,17 @@ function Blogs() {
     
     return (
       <div className="Blog">
-        <header className="Blog-header">
-            <h2>Our Blogs</h2>
-        </header>
+        <div>
+            <a href='/blogs'>Go Back</a>
+        </div>
         <div className="content">
             <ul>
                 {blogs.map(blog => (
                     <div key={blog.id}>
-                        <h4 className=''>{ blog.title !== undefined ? blog.title : null}</h4>
+                        <header className="Blog-header">
+                            <h2>{ blog.title !== undefined ? blog.title : null}</h2>
+                        </header>
+                        <h4 className=''>  </h4>
                         {/* <div dangerouslySetInnerHTML={{ __html: blog.body }} /> */}
                         <p dangerouslySetInnerHTML={{ __html: (blog.body !== undefined) ? blog.body : null }} />
                     </div>
@@ -60,4 +66,4 @@ function Blogs() {
   
 }
 
-export default Blogs;
+export default SingleBlog;

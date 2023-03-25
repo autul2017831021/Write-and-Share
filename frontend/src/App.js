@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Login from './component/Login'
 import Home from './component/Home'
 import Logout from './component/Logout'
-import Blogs from './component/Blogs'
+import AllBlogs from './component/AllBlogs'
+import SingleBlog from './component/SingleBlog'
 import Cookies from 'js-cookie';
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
             <Route exact path='/' element={< Home />}></Route>
             <Route exact path='/login' element={< Login />}></Route>
             <Route exact path='/logout' element={< Logout />}></Route>
-            <Route exact path='/blogs' element={< Blogs />}></Route>
+            <Route exact path='/blogs' element={< AllBlogs />}></Route>
+            <Route exact path='/blogs/:id' element={< SingleBlog />}></Route>
         </Routes>
       </div>
     </Router>
