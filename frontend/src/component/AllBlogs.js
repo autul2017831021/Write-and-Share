@@ -7,7 +7,7 @@ function AllBlogs() {
     const api = 'http://192.168.0.105:8080/api/blog/get';
 
     const apiResponse = async(jwt) => {
-        const token = 'Brarer '+jwt;
+        const token = 'Bearer '+jwt;
         const response = await fetch(api, {
             method: 'GET',
             headers: {
@@ -37,7 +37,8 @@ function AllBlogs() {
 
     useEffect( () => {
         getAllBlogs();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        console.log("I Fire Once")
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     
     return (

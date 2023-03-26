@@ -126,3 +126,4 @@ dist
 
 # Custom Ingnores
 package-lock.json
+routes/
