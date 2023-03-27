@@ -4,6 +4,7 @@ import Home from './component/Home'
 import Logout from './component/Logout'
 import AllBlogs from './component/AllBlogs'
 import SingleBlog from './component/SingleBlog'
+import NotFound from './component/NotFound'
 import Cookies from 'js-cookie';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route exact path='/logout' element={< Logout />}></Route>
             <Route exact path='/blogs' element={< AllBlogs />}></Route>
             <Route exact path='/blogs/:id' element={< SingleBlog />}></Route>
+            <Route path='*' element={< NotFound />}></Route>
         </Routes>
       </div>
     </Router>
