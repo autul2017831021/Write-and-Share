@@ -4,11 +4,12 @@ import '../css/Login.css';
 import Cookies from 'js-cookie';
 
 function Login() {   
+
     const [email, setEmail] = useState('');
     const [password, setPass] = useState('');
 
     const navigate = useNavigate();
-    
+
     const handleLoginSuccess = (token) => {
         const cookieExists = Cookies.get('jwt') !== undefined;
         if(cookieExists){
@@ -19,7 +20,11 @@ function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const api = 'http://192.168.0.105:8080/api/login'
+
+        const apiPrefix = process.env.REACT_APP_API_PREFIX !== null ? process.env.REACT_APP_API_PREFIX : 'http://192.168.0.103:8080';
+        const apiPostfix = process.env.REACT_APP_API_LOGIN !== null ? process.env.REACT_APP_API_LOGIN : '/api/login';
+        const api = apiPrefix + apiPostfix;
+
         const response = await fetch(api, {
             method: 'POST',
             body: JSON.stringify({

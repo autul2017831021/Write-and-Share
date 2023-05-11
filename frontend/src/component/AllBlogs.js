@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import getToken from '../utils/getToken';
 import '../css/Blogs.css';
 
-function AllBlogs() {   
+function AllBlogs() { 
     const [blogs, setBlogs] = useState([]);
-    const api = 'http://192.168.0.105:8080/api/blog/get';
+    
+    const apiPrefix = process.env.REACT_APP_API_PREFIX !== null ? process.env.REACT_APP_API_PREFIX : 'http://192.168.0.103:8080';
+    const apiPostfix = process.env.REACT_APP_API_ALL_BLOGS !== null ? process.env.REACT_APP_API_ALL_BLOGS : '/api/blog/get';
+    const api = apiPrefix + apiPostfix;
 
     const apiResponse = async(jwt) => {
         const token = 'Bearer '+jwt;

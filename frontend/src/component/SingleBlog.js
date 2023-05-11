@@ -5,9 +5,14 @@ import '../css/Blogs.css';
 
 function SingleBlog() {   
     const [blogs, setBlogs] = useState([]);
-    const apiPrefix = 'http://192.168.0.105:8080/api/blog/get';
+
+    const apiPrefix = process.env.REACT_APP_API_PREFIX !== null ? process.env.REACT_APP_API_PREFIX : 'http://192.168.0.103:8080';
+    const apiPostfix = process.env.REACT_APP_API_SINGLE_BLOG !== null ? process.env.REACT_APP_API_SINGLE_BLOG : '/api/blog/get?id=';
     const { id } = useParams();
-    const api = apiPrefix + '?id=' + id;
+    const api = apiPrefix + apiPostfix + id;
+    console.log(process.env.REACT_APP_API_SINGLE_BLOG);
+    console.log(api);
+
     const apiResponse = async(jwt) => {
         const token = 'Brarer '+jwt;
         const response = await fetch(api, {
