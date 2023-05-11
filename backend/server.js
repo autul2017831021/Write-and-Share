@@ -1,5 +1,6 @@
 const http = require('http')
 const express = require('express')
+require('dotenv').config();
 const url = require('url')
 const cors = require('cors')
 const app = express()
@@ -16,8 +17,8 @@ const { updateProfileAuth } = require('./helpers/role.js')
 const { validateJwt } = require('./middleware/auth/validateJwt.js')
 const { hasBlogId, hasUsername } = require('./middleware/queryParam/hasParam')
 
-const host = '192.168.0.105'
-const port = 8080
+const host = process.env.HOST !== null ? process.env.HOST : '192.168.0.103';
+const port = process.env.PORT !== null ? process.env.PORT : 8080;
 
 app.use(cors())
 
@@ -25,7 +26,8 @@ function getDate(dateObj){
     return 'Request Time : '+getApiReqResTime(dateObj)
 }
 function getEndpointName(endpoint){
-    return 'Endpoint : http://localhost:'+port+endpoint
+    //return 'Endpoint : http://localhost:'+port+endpoint
+    return 'Endpoint : '+ host +':'+port+endpoint;
 }
 function commonCallBack(path){
     console.log( getEndpointName(path) )
