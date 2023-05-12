@@ -41,10 +41,10 @@ function Login() {
           if(data.status.success){
               const token = data.token;
               handleLoginSuccess(token);
-              //navigate('/');
+              navigate('/');
           }
           else{
-             //navigate('/login');;
+              navigate('/login');;
           }
           window.location.reload();
       } 

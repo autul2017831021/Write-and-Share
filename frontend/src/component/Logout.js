@@ -1,24 +1,23 @@
 import React from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../css/Login.css';
 import Cookies from 'js-cookie';
 
 function Logout() {
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         const cookieExists = Cookies.get('jwt') !== undefined;
         if(cookieExists){
             Cookies.remove('jwt');
         }
-        //window.location.reload();
     }
 
     const handleClick = async (event) => {
         event.preventDefault();
         handleLogout();
+        navigate('/login');
         window.location.reload();
-        //navigate('/login');
     }
   
     return (

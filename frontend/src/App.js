@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Login from './component/Login'
-import Home from './component/Home'
-import Logout from './component/Logout'
-import AllBlogs from './component/AllBlogs'
-import SingleBlog from './component/SingleBlog'
-import NotFound from './component/NotFound'
+import Login from './component/Login';
+import Home from './component/Home';
+import Logout from './component/Logout';
+import AllBlogs from './component/AllBlogs';
+import SingleBlog from './component/SingleBlog';
+import Register from './component/Register';
+import NotFound from './component/NotFound';
 import PrivateRoute from './middleware/PrivateRoute';
 // import Cookies from 'js-cookie';
 import getToken from './utils/getToken'
@@ -33,18 +34,23 @@ function App() {
     return (
       <Router>
           <div className="App">
-          <ul className="App-header">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              {/* {Cookies.get('jwt') === undefined ? <Link to="/login">Login</Link> : <Link to="/logout">Logout</Link>} */}
-              { isAuthenticated === false ? <Link to="/login">Login</Link> : <Link to="/logout">Logout</Link>}
-            </li>
-            
-          </ul>
+              <ul className="App-header">
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  {/* {Cookies.get('jwt') === undefined ? <Link to="/login">Login</Link> : <Link to="/logout">Logout</Link>} */}
+                  { isAuthenticated === false ? <Link to="/login">Login</Link> : <Link to="/logout">Logout</Link>}
+                </li>
+                <li>
+                  {/* {Cookies.get('jwt') === undefined ? <Link to="/login">Login</Link> : <Link to="/logout">Logout</Link>} */}
+                  { isAuthenticated === false ? <Link to="/register">Register</Link> : null}
+                </li>
+                
+              </ul>
               <Routes>
                   <Route exact path='/' element={< Home />}></Route>
+                  <Route exact path='/register' element={< Register />}></Route>
                   <Route exact path='/login' element={< Login />}></Route>
                   <Route exact path='/logout' element={< Logout />}></Route>
                   {/* <PrivateRoute exact path='/blogs' element={< AllBlogs />}>isAuthenticated={isAuthenticated}</PrivateRoute> */}
@@ -52,7 +58,7 @@ function App() {
                   <Route exact path='/blogs/:id' element={< SingleBlog />}></Route>
                   <Route path='*' element={< NotFound />}></Route>
               </Routes>          
-        </div>
+          </div>
       </Router>
     );
 }

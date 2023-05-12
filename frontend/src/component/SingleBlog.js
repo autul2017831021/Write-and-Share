@@ -4,14 +4,12 @@ import getToken from '../utils/getToken';
 import '../css/Blogs.css';
 
 function SingleBlog() {   
-    const [blogs, setBlogs] = useState([]);
+    const [blog, setBlog] = useState([]);
 
     const apiPrefix = process.env.REACT_APP_API_PREFIX !== null ? process.env.REACT_APP_API_PREFIX : 'http://192.168.0.103:8080';
     const apiPostfix = process.env.REACT_APP_API_SINGLE_BLOG !== null ? process.env.REACT_APP_API_SINGLE_BLOG : '/api/blog/get?id=';
     const { id } = useParams();
     const api = apiPrefix + apiPostfix + id;
-    console.log(process.env.REACT_APP_API_SINGLE_BLOG);
-    console.log(api);
 
     const apiResponse = async(jwt) => {
         const token = 'Brarer '+jwt;
@@ -29,21 +27,21 @@ function SingleBlog() {
         return {status:{success:false}}
     }
 
-    const getAllBlogs = async() => {
+    const getBlog = async() => {
         const jwt = getToken('jwt');
         if (jwt !== undefined) {
             const data = await apiResponse(jwt);
             if(data.status.success){
                 const allBlogs = data.posts;
-                setBlogs(allBlogs);
+                setBlog(allBlogs);
             }
-            else setBlogs([]);
+            else setBlog([]);
         } 
-        else setBlogs([]);
+        else setBlog([]);
     }
 
     useEffect( () => {
-        getAllBlogs();
+        getBlog();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     
@@ -54,7 +52,7 @@ function SingleBlog() {
         </div>
         <div className="content">
             <ul>
-                {blogs.map(blog => (
+                {blog.map(blog => (
                     <div key={blog.id}>
                         <header className="Blog-header">
                             <h2>{ blog.title !== undefined ? blog.title : null}</h2>
