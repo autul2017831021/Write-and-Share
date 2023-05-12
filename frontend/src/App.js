@@ -4,9 +4,10 @@ import Home from './component/Home';
 import Logout from './component/Logout';
 import AllBlogs from './component/AllBlogs';
 import SingleBlog from './component/SingleBlog';
+import CreateBlog from './component/CreateBlog';
 import Register from './component/Register';
 import NotFound from './component/NotFound';
-import PrivateRoute from './middleware/PrivateRoute';
+//import PrivateRoute from './middleware/PrivateRoute';
 // import Cookies from 'js-cookie';
 import getToken from './utils/getToken'
 import { useEffect, useState } from 'react';
@@ -35,17 +36,17 @@ function App() {
       <Router>
           <div className="App">
               <ul className="App-header">
-                <li>
+                <div>
                   <Link to="/">Home</Link>
-                </li>
-                <li>
+                </div>
+                <div>
                   {/* {Cookies.get('jwt') === undefined ? <Link to="/login">Login</Link> : <Link to="/logout">Logout</Link>} */}
                   { isAuthenticated === false ? <Link to="/login">Login</Link> : <Link to="/logout">Logout</Link>}
-                </li>
-                <li>
+                </div>
+                <div>
                   {/* {Cookies.get('jwt') === undefined ? <Link to="/login">Login</Link> : <Link to="/logout">Logout</Link>} */}
-                  { isAuthenticated === false ? <Link to="/register">Register</Link> : null}
-                </li>
+                  { isAuthenticated === false ? <Link to="/register">Register</Link> : <Link to="/create">Create A Blog</Link>}
+                </div>
                 
               </ul>
               <Routes>
@@ -56,6 +57,7 @@ function App() {
                   {/* <PrivateRoute exact path='/blogs' element={< AllBlogs />}>isAuthenticated={isAuthenticated}</PrivateRoute> */}
                   <Route exact path='/blogs' element={< AllBlogs />}></Route>
                   <Route exact path='/blogs/:id' element={< SingleBlog />}></Route>
+                  <Route exact path='/create' element={< CreateBlog />}></Route>
                   <Route path='*' element={< NotFound />}></Route>
               </Routes>          
           </div>

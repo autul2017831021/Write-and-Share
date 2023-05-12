@@ -1,0 +1,43 @@
+.create-blog {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    transform: translateX(5%);
+  }
+  
+
+  input,
+  textarea {
+    position: relative;
+    display: block;
+    left: 5%;
+    width: 80%;
+    padding: 10px;
+    border: 3px solid #111111;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transform: translateX(108%);
+  }
+  
